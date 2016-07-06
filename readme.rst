@@ -26,6 +26,9 @@ jenkins-master with self signed tls
  # For RedHat/CentOS (role default):
  jenkins_repo_url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
  jenkins_repo_key_url: http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+
+ jenkins_plugins: 
+   - git
  
  # TLS settings.
  # keytool -genkey -keyalg RSA -alias selfsigned -keystore ~/ansible-secrets/files/jenkins-keystore.jks -storepass example-password -dname "cn=localhost" -validity 3650
