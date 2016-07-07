@@ -1,0 +1,7 @@
+- name: install the tls keystore
+  copy:
+    src: "{{ jenkins_tls_keystore_src }}"
+    dest: "{{ jenkins_tls_keystore_dst }}"
+    owner: root
+    group: root
+    mode: 0644
