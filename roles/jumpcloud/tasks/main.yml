@@ -1,0 +1,13 @@
+---
+
+- name: Check if JumpCloud is already installed
+  shell: "[ -d /opt/jc ] && echo 'Found' || echo ''"
+  register: jc_installed
+
+#- name: Update time
+#  shell: "ntpdate -u pool.ntp.org"
+#  when: "not jc_installed.stdout"
+
+- name: Install JumpCloud
+  shell: "curl --header 'x-connect-key: {{ jumpcloud_x_connect_key }}' http://kickstart.jumpcloud.com/Kickstart | sudo bash"
+  when: "not jc_installed.stdout"
