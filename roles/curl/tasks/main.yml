@@ -1,0 +1,12 @@
+---
+- name: Install curl package (Debian based)
+  apt:
+    pkg: curl
+    state: installed
+  when: "'$ansible_pkg_mgr' == 'apt'"
+    
+- name: Install curl package (RedHat based)
+  yum:
+    name: curl
+    state: installed
+  when: "'$ansible_pkg_mgr' == 'yum'"
