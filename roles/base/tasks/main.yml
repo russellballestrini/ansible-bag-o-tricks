@@ -1,0 +1,11 @@
+---
+- name: manage /usr/local/sbin/sethostname.sh
+  copy:
+    src: sethostname.sh
+    dest: /usr/local/sbin/sethostname.sh
+    owner: root
+    group: root
+    mode: 0750
+
+- name: execute /usr/local/sbin/sethostname.sh
+  shell: /usr/local/sbin/sethostname.sh
