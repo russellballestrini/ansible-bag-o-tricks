@@ -1,4 +1,4 @@
-- hosts: nat
+- hosts: localhost
 
   remote_user: root
   become: yes

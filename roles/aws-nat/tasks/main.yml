@@ -5,7 +5,7 @@
     dest: /usr/local/sbin/configure-pat.sh
     owner: root
     group: root
-    mode: 0644
+    mode: 0750
 
-- name: execute usr/local/sbin/configure-pat.sh
-  shell: usr/local/sbin/configure-pat.sh
+- name: execute /usr/local/sbin/configure-pat.sh
+  shell: /usr/local/sbin/configure-pat.sh
