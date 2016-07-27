@@ -1,0 +1,11 @@
+---
+- name: manage /usr/local/sbin/configure-pat.sh for configuring AWS NAT.
+  copy: 
+    src: configure-pat.sh
+    dest: /usr/local/sbin/configure-pat.sh
+    owner: root
+    group: root
+    mode: 0644
+
+- name: execute usr/local/sbin/configure-pat.sh
+  shell: usr/local/sbin/configure-pat.sh
