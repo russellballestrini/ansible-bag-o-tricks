@@ -3,6 +3,22 @@ Russell's ansible bag-o-tricks
 
 .. contents:: 
 
+jumpcloud
+=============
+
+~/ansible-secrets/vars/jumpcloud.yml::
+
+ # the api key to connect to jumpcloud - needed to install and register instances.
+ jumpcloud_x_connect_key: the-key-to-connect-to-jumpcloud
+
+ # used for adding new system to tags.
+ jumpcloud_api_key: the-admin-api-key-to-talk-to-api-for-tagging
+
+ # jump cloud tags to add to the systems in this environment.
+ jumpcloud_system_tags:
+   - ops-people
+   - webapp-stage
+ 
 jenkins-master with self signed tls
 ===================================
 
