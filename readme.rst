@@ -13,7 +13,9 @@ genisis
 2. using the VPC specific "master" ssh key - 
 
    2a. configure bastion - setup ansible ansible-secrets / playbooks
-   2b. run aws-nat.yml playbook to configure nat hosts
+
+   2b. run nat.yml playbook to configure NAT hosts
+
    2c. run base.yml playbook to configure hostname / jumpcloud on all hosts
 
 3. configure all the other vpc env specific services via playbooks and using jumpcloud user / keys.
