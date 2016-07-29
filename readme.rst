@@ -3,6 +3,21 @@ Russell's ansible bag-o-tricks
 
 .. contents:: 
 
+genisis
+==============
+
+1. build VPC infra using botoform::
+
+     bf -p dev -r us-east-1 create -e 'vpc_cidr=192.168.1.0/24' webdev01 dev.yaml
+
+2. using the VPC specific "master" ssh key - 
+
+   2a. configure bastion - setup ansible ansible-secrets / playbooks
+   2b. run aws-nat.yml playbook to configure nat hosts
+   2c. run base.yml playbook to configure hostname / jumpcloud on all hosts
+
+3. configure all the other vpc env specific services via playbooks and using jumpcloud user / keys.
+
 jumpcloud
 =============
 
