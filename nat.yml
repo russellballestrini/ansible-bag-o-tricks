@@ -2,4 +2,4 @@
   become: yes
   become_user: root
   roles:
-    - aws-nat
+    - nat
