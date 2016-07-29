@@ -1,0 +1,12 @@
+---
+
+- name: manage /etc/selinux/config
+  copy:
+    src: selinux-config
+    dest: /etc/selinux/config
+    owner: root
+    group: root
+    mode: 0644
+
+- name: disable selinux now, execute 'setenforce 0' 
+  shell: setenforce 0

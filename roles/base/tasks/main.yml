@@ -1,5 +1,8 @@
 ---
 
+- name: include no-selinux
+  include: no-selinux.yml
+
 - name: configure UTC time
   shell: ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 
