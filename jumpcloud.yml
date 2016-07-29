@@ -1,11 +1,8 @@
-- hosts: localhost
-
-  remote_user: root
+- hosts: all
   become: yes
-
+  become_user: root
   vars_files:
     - ~/ansible-secrets/vars/jumpcloud.yml
-
   roles:
     - curl
     - jumpcloud

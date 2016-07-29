@@ -1,10 +1,5 @@
-- hosts: localhost
-
-  remote_user: root
+- hosts: nat
   become: yes
-
-  #vars_files:
-  #  - ~/ansible-secrets/vars/jumpcloud.yml
-
+  become_user: root
   roles:
     - aws-nat

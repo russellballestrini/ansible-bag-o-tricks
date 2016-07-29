@@ -15,4 +15,4 @@
     mode: 0750
 
 - name: execute /usr/local/sbin/sethostname.sh
-  shell: /usr/local/sbin/sethostname.sh
+  shell: /usr/local/sbin/sethostname.sh {{ name }}
