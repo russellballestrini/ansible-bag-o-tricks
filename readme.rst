@@ -10,13 +10,33 @@ genisis
 
      bf -p dev -r us-east-1 create -e 'vpc_cidr=192.168.1.0/24' webdev01 dev.yaml
 
+     # setup the hosts inventory file. You should copy this host file to the bastion.
+     bf -p dev -r us-east-1 dump webdev01 ansible_hosts > webdev01
+
 2. using the VPC specific "master" ssh key - 
 
-   2a. configure bastion - setup ansible ansible-secrets / playbooks
+   2a. configure bastion - setup ansible / ansible-secrets / playbooks::
 
-   2b. run nat.yml playbook to configure NAT hosts
+       # add the new key to your ssh agent. Use the -A flag to forward agent when connecting to bastion.
+       ssh-add webdev01-default-20160801-1112.pem 
+       ssh -A -i webdev01-default-20160801-1112.pem centos@52.77.84.171
 
-   2c. run base.yml playbook to configure hostname / jumpcloud on all hosts
+       sudo yum install git
+       git clone https://github.com/russellballestrini/ansible-bag-o-tricks.git
+       cd ansible-bag-o-tricks
+       ./install-ansible-on-centos-6.sh
+
+       # setup the vars you need.
+       mkdir ~/ansible-secrets
+       mkdir ~/asible-secrets/vars
+
+   2b. run nat.yml playbook to configure NAT hosts::
+
+       ansible-playbook -i ~/ansible-secrets/hosts -v nat.yml
+
+   2c. run base.yml playbook to configure hostname / jumpcloud on all hosts:
+
+       ansible-playbook -i ~/ansible-secrets/hosts -v base.yml
 
 3. configure all the other vpc env specific services via playbooks and using jumpcloud user / keys.
 
