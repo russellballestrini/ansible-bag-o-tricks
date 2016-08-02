@@ -17,9 +17,10 @@ genisis
 
    2a. configure bastion - setup ansible / ansible-secrets / playbooks::
 
-       # add the new key to your ssh agent. Use the -A flag to forward agent when connecting to bastion.
-       ssh-add webdev01-default-20160801-1112.pem 
-       ssh -A -i webdev01-default-20160801-1112.pem centos@52.77.84.171
+       # add the new key to your ssh agent.
+       ssh-add webdev01-default-20160801-1112.pem
+       # forward agent with -A flag when connecting to bastion.
+       ssh -A centos@52.77.84.171
 
        sudo yum install git
        git clone https://github.com/russellballestrini/ansible-bag-o-tricks.git
@@ -34,7 +35,7 @@ genisis
 
        ansible-playbook -i ~/ansible-secrets/hosts -v nat.yml
 
-   2c. run base.yml playbook to configure hostname / jumpcloud on all hosts:
+   2c. run base.yml playbook to configure hostname / jumpcloud on all hosts::
 
        ansible-playbook -i ~/ansible-secrets/hosts -v base.yml
 
