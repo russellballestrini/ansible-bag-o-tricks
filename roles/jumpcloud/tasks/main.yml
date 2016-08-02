@@ -1,7 +1,7 @@
 ---
 
 - name: Check if JumpCloud is already installed
-  shell: "[ -d /opt/jc ] && echo 'Found' || echo ''"
+  shell: "[ -f /opt/jc/jcagent.conf ] && echo 'found' || echo 'not-found'"
   register: jc_installed
 
 #- name: Update time
@@ -10,15 +10,22 @@
 
 - name: Install JumpCloud
   shell: "curl --header 'x-connect-key: {{ jumpcloud_x_connect_key }}' https://kickstart.jumpcloud.com/Kickstart | sudo bash"
-  when: "not jc_installed.stdout"
+  when: jc_installed.stdout == 'not-found'
+
+- name: restart jcagent
+  service:
+    name: jcagent
+    state: restarted
+
+- name: wait for /opt/jc/jcagent.conf to exist
+  wait_for: 
+    path: /opt/jc/jcagent.conf
 
 - name: Get and register the jumpcloud system key from config. 
   shell: "cat /opt/jc/jcagent.conf | python -c 'import sys, json; print json.load(sys.stdin)[sys.argv[1]]' systemKey"
   register: system_key
 
 - name: Use jumpcloud api and curl to tag this system.
-  #shell: 'curl -iq -d \'{ "tags" : ["mobops", "mobdevops", "{{ jumpcloud_system_tag }}"] }\' -X "PUT" -H "Content-Type: application/json" -H "Accept: application/json" -H "x-api-key: {{ jumpcloud_api_key }}" --url "https://console.jumpcloud.com/api/systems/{{ system_key }}"'
   shell: >
     curl -iq -d '{ "tags" : {{ jumpcloud_system_tags | to_json }} }' -X "PUT" -H "Content-Type: application/json" -H "Accept: application/json" -H "x-api-key: {{ jumpcloud_api_key }}" --url https://console.jumpcloud.com/api/systems/{{ system_key.stdout }}
-
-#curl -iq -d '{ "tags" : ["mobops", "mobdevops", "{{ jumpcloud_system_tag }}"] }' -X "PUT" -H "Content-Type: application/json" -H "Accept: application/json" -H "x-api-key: {{ jumpcloud_api_key }}" --url https://console.jumpcloud.com/api/systems/{{ system_key.stdout }}
+  when: jc_installed.stdout == 'not-found'

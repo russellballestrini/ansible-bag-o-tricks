@@ -1,4 +1,5 @@
 ---
+
 - name: manage /etc/sysconfig/iptables
   copy: 
     src: iptables.conf
@@ -6,6 +7,7 @@
     owner: root
     group: root
     mode: 0600
+  notify: restore iptables
 
 - name: manage /etc/sysctl.conf with ip forwarding and redirects enabled.
   copy: 
@@ -14,13 +16,5 @@
     owner: root
     group: root
     mode: 0644
-
-- name: iptables-restore from file /etc/sysconfig/iptables
-  shell: iptables-restore < /etc/sysconfig/iptables
-
-- name: configure ip forwarding
-  shell: echo 1 > /proc/sys/net/ipv4/ip_forward 
-
-- name: configure ip redirects
-  shell: echo 0 > /proc/sys/net/ipv4/conf/eth0/send_redirects
-
+  notify:
+    - reload sysctl

@@ -1,0 +1,8 @@
+---
+
+- name: reload sysctl
+  shell: sysctl --system
+
+# iptables-restore from file /etc/sysconfig/iptables
+- name: restore iptables
+  shell: iptables-restore < /etc/sysconfig/iptables

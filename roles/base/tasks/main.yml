@@ -13,6 +13,9 @@
     owner: root
     group: root
     mode: 0750
+  register: sethostname
 
 - name: execute /usr/local/sbin/sethostname.sh
   shell: /usr/local/sbin/sethostname.sh {{ name }}
+  when: sethostname.changed
+

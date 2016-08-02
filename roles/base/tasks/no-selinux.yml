@@ -7,6 +7,8 @@
     owner: root
     group: root
     mode: 0644
+  register: selinux_config
 
 - name: disable selinux now, execute 'setenforce 0' 
   shell: setenforce 0
+  when: selinux_config.changed
