@@ -38,7 +38,7 @@
     
 - name: Install haproxy build dependencies.
   yum:
-    name: "{{ items }}"
+    name: "{{ item }}"
     state: installed
   with_items:
     - pcre-devel
