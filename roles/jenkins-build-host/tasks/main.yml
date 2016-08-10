@@ -26,5 +26,22 @@
     name: wget
     state: installed
 
+- name: Ensure rpmdevtools is installed (for building rpm files from spec files).
+  yum:
+    name: rpmdevtools
+    state: installed
+  register: rpmdevtools
 
-
+- name: Run 'rpmdev-setuptree'.
+  shell: rpmdev-setuptree
+  when: rpmdevtools.changed
+    
+- name: Install haproxy build dependencies.
+  yum:
+    name: {{ items }}
+    state: installed
+  with_items:
+    - pcre-devel
+    - gcc
+    - openssl-devel
+    - make
