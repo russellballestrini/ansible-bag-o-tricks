@@ -20,6 +20,11 @@
   yum:
     name: bzip2
     state: installed
+    
+- name: Ensure wget is installed.
+  yum:
+    name: wget
+    state: installed
 
 
 
