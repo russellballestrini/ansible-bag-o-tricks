@@ -30,11 +30,6 @@
   yum:
     name: rpmdevtools
     state: installed
-  register: rpmdevtools
-
-- name: Run 'rpmdev-setuptree'.
-  shell: rpmdev-setuptree
-  when: rpmdevtools.changed
     
 - name: Install haproxy build dependencies.
   yum:
