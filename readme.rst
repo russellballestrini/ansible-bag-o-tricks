@@ -84,6 +84,7 @@ jenkins-master with self signed tls
  jenkins_plugins: 
    - git
    - ssh-agent
+   - ssh-slaves
  
  # TLS settings.
  # keytool -genkey -keyalg RSA -alias selfsigned -keystore ~/ansible-secrets/files/jenkins-keystore.jks -storepass example-password -dname "cn=localhost" -validity 3650
