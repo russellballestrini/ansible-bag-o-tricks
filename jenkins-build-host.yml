@@ -1,7 +1,7 @@
-- hosts: localhost
+- hosts: builder
 
-  remote_user: root
   become: yes
+  become_user: root
 
   #vars_files:
   #  - ~/ansible-secrets/vars/jenkins-master.yml
@@ -9,3 +9,4 @@
   roles:
     - role : java
     - role : jenkins-build-host
+    - role : fpm

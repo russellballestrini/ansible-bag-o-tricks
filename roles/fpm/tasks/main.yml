@@ -1,0 +1,23 @@
+---
+
+- name: install dependencies for fpm
+  register: fpm_dependencies
+  yum:
+    state: installed
+    name: "{{ item }}"
+  with_items:
+    - ruby-devel
+    - gcc
+    - make
+
+- name: install fpm into rvm
+  shell: gem install fpm
+
+#- name: install key for rvm
+#  shell: gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+#
+#- name: install rvm
+#  shell: curl -sSL https://get.rvm.io | bash -s stable --ruby=1.9.3
+#
+#- name: install fpm into rvm
+#  shell: rvm use 1.9.3 && gem install fpm
