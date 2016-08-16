@@ -22,14 +22,14 @@ genisis
        # forward agent with -A flag when connecting to bastion.
        ssh -A centos@52.77.84.171
 
-       sudo yum install git
+       sudo yum -y install git
        git clone https://github.com/russellballestrini/ansible-bag-o-tricks.git
        cd ansible-bag-o-tricks
        ./install-ansible-on-centos-6.sh
 
        # setup the vars you need.
        mkdir ~/ansible-secrets
-       mkdir ~/asible-secrets/vars
+       mkdir ~/ansible-secrets/vars
 
    2b. run nat.yml playbook to configure NAT hosts::
 
