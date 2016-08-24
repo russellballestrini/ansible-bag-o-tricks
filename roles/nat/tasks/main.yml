@@ -11,7 +11,7 @@
 
 - name: manage /etc/sysctl.conf with ip forwarding and redirects enabled.
   copy:
-    src: sysctl.conf
+    src: nat.conf
     dest: /etc/sysctl.d/10-nat.conf
     owner: root
     group: root
