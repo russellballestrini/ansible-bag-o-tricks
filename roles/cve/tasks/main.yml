@@ -2,5 +2,5 @@
 
 # CVE-2016-5696
 #   A bandaid fix. Remove when upstream kernels are patched. 
-- name: execute cve-2016-5696.sh
-  script: cve-2016-5696.sh
+- name: execute cve-2016-5696-add.sh
+  script: cve-2016-5696-add.sh
