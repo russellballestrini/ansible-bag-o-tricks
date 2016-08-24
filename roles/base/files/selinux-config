@@ -1,5 +1,5 @@
 # /etc/selinux/config
 # Disable selinux now on shell.
 #setenforce 0
-SELINUX=disabled
+SELINUX=permissive
 SELINUXTYPE=targeted
