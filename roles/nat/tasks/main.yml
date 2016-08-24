@@ -12,7 +12,7 @@
 - name: manage /etc/sysctl.conf with ip forwarding and redirects enabled.
   copy: 
     src: sysctl.conf
-    dest: /etc/sysctl.conf
+    dest: /etc/sysctl.d/10-base.conf
     owner: root
     group: root
     mode: 0644
