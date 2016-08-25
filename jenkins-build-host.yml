@@ -8,5 +8,5 @@
 
   roles:
     - role : java
-    - role : jenkins-build-host
     - role : fpm
+    - role : jenkins-build-host
