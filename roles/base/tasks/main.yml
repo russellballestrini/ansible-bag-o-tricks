@@ -23,3 +23,6 @@
   yum:
     name: epel-release
 
+- name: install pip
+  yum:
+    name: python-pip
