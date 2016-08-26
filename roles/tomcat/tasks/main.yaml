@@ -19,6 +19,9 @@
 - name: Symlink install directory
   file: src=/opt/apache-tomcat-8.0.36 path=/usr/share/tomcat state=link
 
+- name: Symlink to friendly /opt/tomcat
+  file: src=/opt/apache-tomcat-8.0.36 path=/opt/tomcat state=link
+
 - name: Change ownership of Tomcat installation
   file: path=/usr/share/tomcat/ owner=tomcat group=tomcat state=directory recurse=yes
 

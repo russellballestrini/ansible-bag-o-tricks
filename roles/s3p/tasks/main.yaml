@@ -3,3 +3,5 @@
 - name: install s3p for building release pipelines
   shell: pip install --upgrade git+https://github.com/russellballestrini/s3p.git
 
+- name: install awscli for building release pipelines
+  shell: pip install --upgrade awscli
