@@ -28,4 +28,3 @@
 - name: Use jumpcloud api and curl to tag this system.
   shell: >
     curl -iq -d '{ "tags" : {{ jumpcloud_system_tags | to_json }} }' -X "PUT" -H "Content-Type: application/json" -H "Accept: application/json" -H "x-api-key: {{ jumpcloud_api_key }}" --url https://console.jumpcloud.com/api/systems/{{ system_key.stdout }}
-  when: jc_installed.stdout == 'not-found'
