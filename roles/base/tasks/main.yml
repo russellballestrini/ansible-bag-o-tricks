@@ -19,3 +19,7 @@
   shell: /usr/local/sbin/sethostname.sh {{ name }}
   when: sethostname.changed
 
+- name: install epel-release repo.
+  yum:
+    name: epel-release
+

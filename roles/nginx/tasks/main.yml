@@ -1,0 +1,7 @@
+---
+
+- name: manage nginx package.
+  yum: 
+    name: nginx
+  notify: restart nginx
+
