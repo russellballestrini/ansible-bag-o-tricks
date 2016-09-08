@@ -6,16 +6,20 @@
 - name: configure UTC time
   shell: ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 
-- name: manage /usr/local/sbin/sethostname.sh
-  copy:
-    src: sethostname.sh
-    dest: /usr/local/sbin/sethostname.sh
-    owner: root
-    group: root
-    mode: 0750
-  register: sethostname
-
 - name: execute /usr/local/sbin/sethostname.sh
-  shell: /usr/local/sbin/sethostname.sh {{ name }}
-  when: sethostname.changed
+  script: sethostname.sh "{{ name }}.{{ vpc_name }}.local"
 
+# janky but aws clobbers hostname, this prevents it.
+- name: preserve_hostname in /etc/cloud/cloud.cfg
+  lineinfile:
+    dest: /etc/cloud/cloud.cfg
+    regexp: '^preserve_hostname:'
+    line: 'preserve_hostname: true'
+
+- name: install epel-release repo.
+  yum:
+    name: epel-release
+
+- name: install pip
+  yum:
+    name: python-pip
