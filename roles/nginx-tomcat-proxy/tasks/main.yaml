@@ -1,0 +1,7 @@
+---
+- name: Configure NginX Tomcat Proxy
+  copy:
+    src: tomcat-proxy.conf
+    dest: /etc/nginx/conf.d/01-tomcat-proxy.conf
+  notify: restart nginx
+
