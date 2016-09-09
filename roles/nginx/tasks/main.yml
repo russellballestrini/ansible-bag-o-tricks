@@ -1,0 +1,26 @@
+---
+
+- name: manage nginx package.
+  package:
+    name: nginx
+  notify: restart nginx
+
+- name: Configure Nginx defaults
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+  notify: restart nginx
+  
+- name: enable nginx service (start at system boot)
+  service:
+    name: nginx
+    enabled: yes
+
+- name: Create /etc/nginx/options.d
+  file: 
+    path: /etc/nginx/options.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+  
