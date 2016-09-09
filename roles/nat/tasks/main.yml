@@ -1,18 +1,18 @@
 ---
 
 - name: manage /etc/sysconfig/iptables
-  copy: 
+  copy:
     src: iptables.conf
-    dest: /etc/sysconfig/iptables 
+    dest: /etc/sysconfig/iptables
     owner: root
     group: root
     mode: 0600
   notify: restore iptables
 
 - name: manage /etc/sysctl.conf with ip forwarding and redirects enabled.
-  copy: 
-    src: sysctl.conf
-    dest: /etc/sysctl.conf
+  copy:
+    src: nat.conf
+    dest: /etc/sysctl.d/10-nat.conf
     owner: root
     group: root
     mode: 0644

@@ -1,19 +1,8 @@
 ---
 
-- name: Ensure epel-release is installed.
-  yum: 
-    name: epel-release
-    state: installed
+- name: install s3p for building release pipelines
+  shell: pip install --upgrade git+https://github.com/russellballestrini/s3p.git
 
-- name: Ensure nodejs is installed.
-  yum: 
-    name: nodejs
-    state: installed
-
-- name: Ensure npm is installed.
-  yum: 
-    name: npm
-    state: installed
 
 # required to extract phantomjs-1.9.8-linux-x86_64.tar.bz2
 - name: Ensure bzip2 is installed.
@@ -41,3 +30,17 @@
     - openssl-devel
     - make
 
+- name: Ensure epel-release is installed.
+  yum: 
+    name: epel-release
+    state: installed
+
+- name: Ensure nodejs is installed.
+  yum: 
+    name: nodejs
+    state: installed
+
+- name: Ensure npm is installed.
+  yum: 
+    name: npm
+    state: installed

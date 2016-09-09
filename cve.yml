@@ -1,6 +1,5 @@
-- hosts: nat
+- hosts: all
   become: yes
   become_user: root
   roles:
-    - nat
-    - postfix-relay
+    - cve

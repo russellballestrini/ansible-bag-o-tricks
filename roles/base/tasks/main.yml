@@ -20,6 +20,10 @@
   yum:
     name: epel-release
 
+- name: install epel-release repo.
+  yum:
+    name: epel-release
+
 - name: install pip
   yum:
     name: python-pip

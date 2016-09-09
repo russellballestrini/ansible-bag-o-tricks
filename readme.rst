@@ -30,6 +30,8 @@ genisis
        # setup the vars you need.
        mkdir ~/ansible-secrets
        mkdir ~/ansible-secrets/vars
+       mkdir ~/ansible-secrets/hosts
+       mkdir ~/ansible-secrets/keys
 
    2b. run nat.yml playbook to configure NAT hosts::
 
