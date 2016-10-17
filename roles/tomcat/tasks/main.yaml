@@ -9,7 +9,7 @@
 
 - name: Download Tomcat
   get_url:
-    url: http://www.trieuvan.com/apache/tomcat/tomcat-8/v8.0.36/bin/apache-tomcat-8.0.36.tar.gz
+    url: http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.36/bin/apache-tomcat-8.0.36.tar.gz
     dest: /opt/apache-tomcat.tar.gz
 
 - name: Extract archive

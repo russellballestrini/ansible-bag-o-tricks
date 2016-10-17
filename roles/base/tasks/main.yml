@@ -3,22 +3,21 @@
 - name: include no-selinux
   include: no-selinux.yml
 
+- name: include netcat
+  include: netcat.yml
+
 - name: configure UTC time
   shell: ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 
-- name: execute /usr/local/sbin/sethostname.sh
+- name: execute sethostname.sh
   script: sethostname.sh "{{ name }}.{{ vpc_name }}.local"
 
-# janky but aws clobbers hostname, this prevents it.
+# AWS clobbers hostname on reboots, this prevents it.
 - name: preserve_hostname in /etc/cloud/cloud.cfg
   lineinfile:
     dest: /etc/cloud/cloud.cfg
     regexp: '^preserve_hostname:'
     line: 'preserve_hostname: true'
-
-- name: install epel-release repo.
-  yum:
-    name: epel-release
 
 - name: install epel-release repo.
   yum:

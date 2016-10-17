@@ -1,0 +1,48 @@
+---
+
+- name: manage /etc/yum.repos.d/mongodb-org-3.2.repo
+  copy: 
+    src: mongodb-org-3.2.repo
+    dest: /etc/yum.repos.d/mongodb-org-3.2.repo
+
+- name: manage mongodb-org package
+  yum:
+    name: mongodb-org
+    state: installed
+
+- name: manage /etc/mongod.conf
+  copy: 
+    src: mongod.conf
+    dest: /etc/mongod.conf
+  register: mongod_conf
+
+- name: restart mongod
+  service:
+    name: mongod
+    state: restarted
+  when: mongod_conf.changed
+
+- name: check if replset exists
+  shell: echo 'JSON.stringify(rs.status())' | mongo --quiet
+  run_once: true
+  ignore_errors: true
+  register: rs_status_raw
+
+- name: parse rs_status_raw json and set python dictionary fact
+  run_once: true
+  set_fact:
+    rs_status: "{{ rs_status_raw.stdout|from_json }}"
+
+- name: initiate replset
+  shell: echo 'rs.initiate()' | mongo --quiet
+  run_once: true
+  register: rs_initiate
+  when: '"no replset config has been received" in rs_status.get( "errmsg", "no error" )'
+
+- name: add hosts to replset
+  run_once: true
+  when: rs_initiate.changed
+  shell: echo "rs.add(\"{{ hostvars[item]['name'] }}.{{ vpc_name }}.local\")" | mongo --quiet
+  # this loops over all the ip addresses in the inventory and 
+  with_items: "{{ groups.db }}"
+

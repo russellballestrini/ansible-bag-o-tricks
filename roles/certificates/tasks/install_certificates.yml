@@ -1,0 +1,18 @@
+---
+
+- name: manage internal VPC CA public key (crt) in /etc/pki/ca-trust/source/anchors/
+  copy:
+    src: ~/ansible-secrets/files/{{ vpc_name }}.local/CA/certs/{{ vpc_name }}.local.ca.crt
+    dest: /etc/pki/ca-trust/source/anchors/
+  notify: update-ca-trust
+
+- name: manage internal VPC public key (crt) in /etc/pki/tls/certs
+  copy:
+    src: ~/ansible-secrets/files/{{ vpc_name }}.local/CA/certs/{{ vpc_name }}.local.crt
+    dest: /etc/pki/tls/certs/
+
+- name: manage internal VPC private key (key) in /etc/pki/tls/private
+  copy:
+    src: ~/ansible-secrets/files/{{ vpc_name }}.local/CA/private/{{ vpc_name }}.local.key
+    dest: /etc/pki/tls/private/
+

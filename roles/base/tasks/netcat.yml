@@ -1,0 +1,6 @@
+---
+
+- name: install netcat
+  package:
+    name: nc
+    state: installed

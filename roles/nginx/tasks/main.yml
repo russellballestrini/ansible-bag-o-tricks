@@ -15,6 +15,11 @@
   service:
     name: nginx
     enabled: yes
+    
+- name: start nginx service if it isn't running
+  service:
+    name: nginx
+    state: started
 
 - name: Create /etc/nginx/options.d
   file: 
@@ -23,3 +28,4 @@
     owner: root
     group: root
     mode: 0775
+  

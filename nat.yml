@@ -3,4 +3,3 @@
   become_user: root
   roles:
     - nat
-    - postfix-relay

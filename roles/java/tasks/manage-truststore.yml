@@ -1,0 +1,12 @@
+---
+
+- name: download rds-combined-ca-bundle.pem from internet
+  get_url:
+    url: https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+    dest: /tmp/rds-combined-ca-bundle.pem
+  register: rds_ca_bundle
+
+- name: install the AWS RDS CA into Java truststore so Java can connect to MySQL with TLS
+  script: pem-to-java-truststore-importer.sh /tmp/rds-combined-ca-bundle.pem
+  when: rds_ca_bundle.changed
+

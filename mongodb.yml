@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: db
   become: yes
   become_user: root
   vars_prompt:
@@ -7,5 +7,4 @@
   vars_files:
     - ~/ansible-secrets/vars/{{ vpc_name }}.yml
   roles:
-    - curl
-    - jumpcloud
+    - mongodb

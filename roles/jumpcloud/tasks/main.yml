@@ -11,11 +11,13 @@
 - name: Install JumpCloud
   shell: "curl --header 'x-connect-key: {{ jumpcloud_x_connect_key }}' https://kickstart.jumpcloud.com/Kickstart | sudo bash"
   when: jc_installed.stdout == 'not-found'
+  register: jc_kickstarted
 
-- name: restart jcagent
+- name: ensure jcagent service is started
   service:
     name: jcagent
-    state: restarted
+    state: started
+  when: jc_kickstarted.changed
 
 - name: wait for /opt/jc/jcagent.conf to exist
   wait_for: 
@@ -24,6 +26,9 @@
 - name: Get and register the jumpcloud system key from config. 
   shell: "cat /opt/jc/jcagent.conf | python -c 'import sys, json; print json.load(sys.stdin)[sys.argv[1]]' systemKey"
   register: system_key
+  delay: 15
+  retries: 6
+  until: system_key.rc == 0
 
 - name: Use jumpcloud api and curl to tag this system.
   shell: >
