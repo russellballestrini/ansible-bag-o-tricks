@@ -39,6 +39,7 @@ openssl genrsa -out $ca_key 2048
 
 echo "# 3 Generate CA Certificate"
 
+# TODO: move the subj C, ST, L, O to vars.
 openssl req -new -x509 -extensions v3_ca -key $ca_key -out $ca_crt -days 3650 \
  -subj "/C=US/ST=Florida/L=Gainesville/O=Managed Hosting/OU=$vpc_name/CN=VPC Internal CA $vpc_name"
 
