@@ -4,10 +4,6 @@
   shell: "[ -f /opt/jc/jcagent.conf ] && echo 'found' || echo 'not-found'"
   register: jc_installed
 
-#- name: Update time
-#  shell: "ntpdate -u pool.ntp.org"
-#  when: "not jc_installed.stdout"
-
 - name: Install JumpCloud
   shell: "curl --header 'x-connect-key: {{ jumpcloud_x_connect_key }}' https://kickstart.jumpcloud.com/Kickstart | sudo bash"
   when: jc_installed.stdout == 'not-found'
@@ -17,7 +13,6 @@
   service:
     name: jcagent
     state: started
-  when: jc_kickstarted.changed
 
 - name: wait for /opt/jc/jcagent.conf to exist
   wait_for: 

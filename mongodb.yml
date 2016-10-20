@@ -1,4 +1,4 @@
-- hosts: db
+- hosts: mongodb
   become: yes
   become_user: root
   vars_prompt:

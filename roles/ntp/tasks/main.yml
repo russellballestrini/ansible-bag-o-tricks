@@ -1,0 +1,14 @@
+---
+
+- name: Ensure ntp client is installed.
+  package:
+    name: ntp
+    state: installed
+
+- name: Enable ntpd service to start on boot.
+  service:
+    name: ntpd
+    enabled: yes
+
+- name: Sync time with pool.ntp.org
+  shell: "ntpdate -u pool.ntp.org"

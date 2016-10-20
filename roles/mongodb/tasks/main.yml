@@ -44,5 +44,5 @@
   when: rs_initiate.changed
   shell: echo "rs.add(\"{{ hostvars[item]['name'] }}.{{ vpc_name }}.local\")" | mongo --quiet
   # this loops over all the ip addresses in the inventory and 
-  with_items: "{{ groups.db }}"
+  with_items: "{{ groups.mongodb }}"
 
