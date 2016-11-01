@@ -28,6 +28,7 @@ In addition the following `defaults` are expected to be set / hardcoded:
 `~/taco-playbooks/roles/app/defaults/main.yml`
 
 .. code-block:: yaml
+
  ---
  role_name: app
  service_name: taco-api
@@ -38,6 +39,7 @@ Here is another role with different `defaults`:
 `~/taco-playbooks/roles/agenda/defaults/main.yml`
 
 .. code-block:: yaml
+
  ---
  role_name: agenda
  service_name: taco-agenda
