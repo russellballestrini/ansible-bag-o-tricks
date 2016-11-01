@@ -29,7 +29,6 @@ openssl genrsa -out $key 2048
 
 echo "# Generate CSR for *.$domain"
 
-# TODO: move the subj C, ST, L, O to vars.
 openssl req -out $csr -key $key -days 3650 -new \
 -subj "/C=US/ST=Florida/L=Gainesville/O=Managed Hosting/OU=$vpc_name/CN=*.$domain"
 

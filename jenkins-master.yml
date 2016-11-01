@@ -1,10 +1,14 @@
-- hosts: localhost
+- hosts: master
 
   become: yes
   become_user: root
 
+  vars_prompt:
+    - name: vpc_name
+      private: no
+
   vars_files:
-    - ~/ansible-secrets/vars/jenkins-master.yml
+    - ~/ansible-secrets/vars/{{ vpc_name }}.yml
 
   roles:
     - java

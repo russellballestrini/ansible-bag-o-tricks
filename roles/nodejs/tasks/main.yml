@@ -1,0 +1,19 @@
+---
+
+- name: Ensure nodejs is installed.
+  yum:
+    name: nodejs
+    state: installed
+
+- name: Ensure npm is installed.
+  yum:
+    name: npm
+    state: installed
+
+- name: Create a node user to own code / processes.
+  user: 
+    name: node
+    shell: /bin/bash
+    comment: service user for running Node.js applications.
+    append: yes
+

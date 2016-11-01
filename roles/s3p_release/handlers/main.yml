@@ -1,0 +1,6 @@
+---
+
+- name: restart after release
+  service:
+    name: "{{ service_name }}"
+    state: restarted

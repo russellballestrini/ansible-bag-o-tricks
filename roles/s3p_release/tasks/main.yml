@@ -1,0 +1,25 @@
+---
+- name: download new release from s3
+  shell: s3p download {{ rpm_name }} {{ env_name }} /tmp/{{ rpm_name }}
+  environment: "{{ s3p }}"
+
+- name: stat new release
+  stat:
+    path: /tmp/{{ rpm_name }}
+  register: new_release
+
+- name: stat old / current release
+  stat:
+    path: /opt/{{ rpm_name }}
+  register: old_release
+
+- name: trigger new release
+  when: new_release.stat.get('md5', 'missing-new-release') != old_release.stat.get('md5', 'missing-old-release')
+  shell: cp /tmp/{{ rpm_name }} /opt/{{ rpm_name }}
+  register: trigger_release
+
+- name: install new release
+  when: trigger_release.changed
+  yum:
+    name: /opt/{{ rpm_name }}
+  notify: restart after release

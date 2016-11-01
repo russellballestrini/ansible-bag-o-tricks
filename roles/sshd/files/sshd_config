@@ -1,9 +1,14 @@
 ChallengeResponseAuthentication no
 UsePAM yes
-AuthorizedKeysFile     .ssh/authorized_keys
+AuthorizedKeysFile .ssh/authorized_keys
 PubkeyAuthentication yes
 PermitRootLogin no
 PasswordAuthentication no
+
+KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256
+
+Ciphers chacha20-poly1305@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+
 #	$OpenBSD: sshd_config,v 1.80 2008/07/02 02:24:18 djm Exp $
 
 # This is the sshd server system-wide configuration file.  See
