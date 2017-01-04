@@ -16,3 +16,7 @@
     src: ~/ansible-secrets/files/{{ vpc_name }}.local/CA/private/{{ vpc_name }}.local.key
     dest: /etc/pki/tls/private/
 
+- name: copy ~/ansible-secrets/files/tls/ to /etc/pki/tls/
+  copy:
+    src: ~/ansible-secrets/files/tls/
+    dest: /etc/pki/tls/

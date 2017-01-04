@@ -1,0 +1,6 @@
+---
+
+- name: Configure Swagger UI in Nginx
+  template:
+    src: swagger-ui.include.j2
+    dest: /etc/nginx/swagger-ui.include

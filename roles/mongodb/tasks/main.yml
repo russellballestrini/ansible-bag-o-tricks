@@ -5,10 +5,22 @@
     src: mongodb-org-3.2.repo
     dest: /etc/yum.repos.d/mongodb-org-3.2.repo
 
+- name: manage /etc/yum.repos.d/mongodb-enterprise.repo
+  copy: 
+    src: mongodb-enterprise.repo
+    dest: /etc/yum.repos.d/mongodb-enterprise.repo
+
 - name: manage mongodb-org package
   yum:
     name: mongodb-org
     state: installed
+  when: not mongodb_enterprise
+  
+- name: manage mongodb-enterprise package
+  yum:
+    name: mongodb-enterprise
+    state: installed
+  when: mongodb_enterprise
 
 - name: manage /etc/mongod.conf
   copy: 

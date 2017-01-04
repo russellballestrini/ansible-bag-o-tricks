@@ -5,5 +5,8 @@
     name: java-1.8.0-openjdk
     state: installed
 
+- name: powah level over 9,000!
+  include: unlimited-jce.yaml
+
 - name: Manage cacerts truststore.
   include: manage-truststore.yml

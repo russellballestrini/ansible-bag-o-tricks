@@ -1,0 +1,12 @@
+---
+nginx_tls_proxy:
+  # the path to the certificate file with bundled intermediate and root certs.
+  tls_crt: /etc/pki/tls/certs/example.com.bundled.pem
+  # the path to the private key portion of the certificate.
+  tls_key: /etc/pki/tls/private/example.com.key.pem
+  # the port to proxy to on localhost.
+  upstream_port: 5006
+  # for example: https://nbpdev1-ui.mobproto.com
+  cors_origin: '*'
+  # enable or disable swagger ui.
+  swagger: False

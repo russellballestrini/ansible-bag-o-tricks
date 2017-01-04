@@ -14,4 +14,5 @@
 
 - name: Ensure Jenkins is installed.
   yum: name=jenkins state=installed
+  #yum: name=jenkins state=latest
   register: jenkins_install_package

@@ -8,3 +8,6 @@
     - ~/ansible-secrets/vars/{{ vpc_name }}.yml
   roles:
     - mongodb
+
+# example how to connect to a repliaset:
+# mongo --host rs0/prd1-mongodb-a.prd1.local:27017,prd1-mongodb-b.prd1.local:27017,prd1-mongodb-c.prd1.local:27017

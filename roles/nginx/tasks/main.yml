@@ -11,6 +11,11 @@
     dest: /etc/nginx/nginx.conf
   notify: restart nginx
   
+- name: Manage /etc/nginx/proxy_params file
+  copy:
+    src: proxy_params
+    dest: /etc/nginx/proxy_params
+
 - name: enable nginx service (start at system boot)
   service:
     name: nginx

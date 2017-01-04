@@ -16,3 +16,8 @@ mkdir ~/ansible-secrets/vars
 mkdir ~/ansible-secrets/hosts
 mkdir ~/ansible-secrets/keys
 mkdir ~/ansible-secrets/files
+mkdir ~/ansible-secrets/files/tls
+mkdir ~/ansible-secrets/files/tls/certs
+mkdir ~/ansible-secrets/files/tls/private
+
+touch ~/ansible-secrets/vars/common.yml

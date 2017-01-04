@@ -1,14 +1,5 @@
 ---
 
-- name: manage /etc/sysconfig/iptables
-  copy:
-    src: iptables.conf
-    dest: /etc/sysconfig/iptables
-    owner: root
-    group: root
-    mode: 0600
-  notify: restore iptables
-
 - name: manage /etc/sysctl.conf with ip forwarding and redirects enabled.
   copy:
     src: nat.conf
@@ -18,3 +9,26 @@
     mode: 0644
   notify:
     - reload sysctl
+
+- name: manage /etc/sysconfig/iptables
+  copy:
+    src: iptables.conf
+    dest: /etc/sysconfig/iptables
+    owner: root
+    group: root
+    mode: 0600
+
+- name: create service to reload iptables /etc/systemd/system/loadiptables.service 
+  copy:
+    src: loadiptables.service
+    dest: /etc/systemd/system/loadiptables.service
+    owner: root
+    group: root
+    mode: 0644
+
+# systemctl enable loadiptables.service
+- name: enable loadiptables systemd service
+  service:
+    name: loadiptables
+    enabled: yes
+    state: started

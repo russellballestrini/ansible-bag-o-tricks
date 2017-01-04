@@ -1,0 +1,37 @@
+server {
+    listen 443;
+    server_name     _;
+
+    ssl on;
+    ssl_certificate {{ nginx_tls_proxy.tls_crt }};
+    ssl_certificate_key {{ nginx_tls_proxy.tls_key }};
+
+    # openssl dhparam -outform pem -out /etc/nginx/ssl/blah.dhparam.2048.pem 2048
+    # Enable Perfect Forward Secrecy.
+    #ssl_dhparam /etc/nginx/certs/blah.dhparam.2048.pem;
+
+    ssl_protocols TLSv1.2 TLSv1.1 TLSv1;
+
+    # prefer our cipher list.
+    ssl_prefer_server_ciphers on;
+
+    # disable server tokens
+    server_tokens off;
+
+    # enable all ciphers and then exclude each weak cipher.
+    ssl_ciphers 'kEECDH+ECDSA+AES128 kEECDH+ECDSA+AES256 kEECDH+AES128 kEECDH+AES256 kEDH+AES128 kEDH+AES256 DES-CBC3-SHA +SHA !aNULL !eNULL !LOW !kECDH !DSS !MD5 !EXP !PSK !SRP !CAMELLIA !SEED';
+
+    add_header Access-Control-Allow-Origin {{ nginx_tls_proxy.cors_origin }} always;
+
+    {% if nginx_tls_proxy.swagger == true %}
+    include /etc/nginx/swagger-ui.include;
+    {% endif %}
+
+    location / {
+        # include default proxy_set_header directives.
+        include                      proxy_params;
+        proxy_set_header             X-Forwarded-Host $server_name;
+        proxy_pass http://127.0.0.1:{{ nginx_tls_proxy.upstream_port }}/;
+    }
+
+}

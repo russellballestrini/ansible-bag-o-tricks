@@ -6,9 +6,11 @@
       private: no
   vars_files:
     - ~/ansible-secrets/vars/{{ vpc_name }}.yml
+    - ~/ansible-secrets/vars/common.yml
   roles:
     - base
-    - sshd
     - ntp
     - jumpcloud
+    - sshd
     - certificates
+    #- aws-inspector-agent

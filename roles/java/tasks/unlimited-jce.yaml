@@ -1,0 +1,11 @@
+---
+
+# reference: http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
+- name: unlock the unlimited encryption powah!
+  copy:
+    dest: "/usr/lib/jvm/jre/lib/security/{{ item }}"
+    src: "{{ item }}"
+  with_items:
+    - "local_policy.jar"
+    - "US_export_policy.jar"
+    - "encryption-util.jar"

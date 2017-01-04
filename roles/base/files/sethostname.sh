@@ -31,5 +31,6 @@ sed -i "/$hostIP/d" /etc/hosts
 sed -i "1s/^/$hostIP $newHostname $newNodename\n/" /etc/hosts
 
 # reload network, maybe not needed, going to remove.
-service network reload
+#service network reload
+
 exit 0

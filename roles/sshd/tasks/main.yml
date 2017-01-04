@@ -1,5 +1,12 @@
 ---
 
+- name: manage authorized_keys files
+  authorized_key:
+    user: "{{ item.user }}"
+    key: "{{ item.key }}"
+    state: present
+  with_items: "{{ authorized_keys | default([]) }}"
+
 - name: manage /etc/ssh/sshd_config 
   copy: 
     src: sshd_config
@@ -9,4 +16,3 @@
     mode: 0644
   notify:
     - restart sshd
-

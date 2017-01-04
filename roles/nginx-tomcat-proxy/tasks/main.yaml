@@ -1,5 +1,5 @@
 ---
-- name: Configure NginX Tomcat Proxy
+- name: Configure Nginx Tomcat Proxy
   copy:
     src: tomcat-proxy.conf
     dest: /etc/nginx/conf.d/01-tomcat-proxy.conf

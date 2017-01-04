@@ -1,0 +1,6 @@
+---
+
+- name: Ensure mysql-client is installed.
+  package:
+    name: mysql
+    state: installed
