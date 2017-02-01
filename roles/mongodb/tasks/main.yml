@@ -1,13 +1,13 @@
 ---
 
-- name: manage /etc/yum.repos.d/mongodb-org-3.2.repo
+- name: manage /etc/yum.repos.d/mongodb-org.repo
   copy: 
-    src: mongodb-org-3.2.repo
-    dest: /etc/yum.repos.d/mongodb-org-3.2.repo
+    src: mongodb-org-3.4.repo
+    dest: /etc/yum.repos.d/mongodb-org.repo
 
 - name: manage /etc/yum.repos.d/mongodb-enterprise.repo
   copy: 
-    src: mongodb-enterprise.repo
+    src: mongodb-enterprise-3.4.repo
     dest: /etc/yum.repos.d/mongodb-enterprise.repo
 
 - name: manage mongodb-org package
@@ -22,15 +22,31 @@
     state: installed
   when: mongodb_enterprise
 
+# configure data at rest encryption key if present.
+- name: manage /etc/mongodb.data.at.rest.encryption.key
+  template: 
+    src: mongodb.data.at.rest.encryption.key.j2
+    dest: /etc/mongodb.data.at.rest.encryption.key
+    owner: mongod
+    group: root
+    mode: 0400
+  register: mongodb_encryption_key
+  when: mongodb_data_at_rest_encryption_key is defined and mongodb_data_at_rest_encryption_key
+
 - name: manage /etc/mongod.conf
-  copy: 
-    src: mongod.conf
+  template: 
+    src: mongod.conf.j2
     dest: /etc/mongod.conf
+    owner: root
+    group: mongod
+    mode: 0640
   register: mongod_conf
 
 - name: restart mongod
   service:
     name: mongod
+    enabled: yes
+    daemon_reload: yes
     state: restarted
   when: mongod_conf.changed
 
@@ -58,3 +74,18 @@
   # this loops over all the ip addresses in the inventory and 
   with_items: "{{ groups.mongodb }}"
 
+# if mongodb_backups: yes then we make local backups on all mongodb instances
+# in the replicaSet.  This means we have 3 backups each day, for 21 days.
+# backups stored in /tmp/mongodb-backups
+- name: manage /etc/cron.daily/mongo-back
+  copy: 
+    src: mongo-back.sh
+    dest: /etc/cron.daily/mongo-back
+    mode: 0744
+  when: mongodb_backups
+
+- name: remove /etc/cron.daily/mongo-back
+  file:
+    path: /etc/cron.daily/mongo-back
+    state: absent
+  when: not mongodb_backups

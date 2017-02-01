@@ -1,3 +1,18 @@
 ---
 
+# boolean to determine which mongodb rpm to install.
 mongodb_enterprise: no
+
+# boolean to determine if mongodb should listen to TLS.
+mongodb_tls: no
+
+# if you want to use data at rest encryption create and define this key.
+# to generate key a key run this:
+# openssl rand -base64 32
+# and configure it like this:
+# mongodb_data_at_rest_encryption_key: IIfLm92e81UgY+fLzGc86DNZE7YJN1o2H1rFB15ykS4=
+mongodb_data_at_rest_encryption_key: no
+
+# should we install /etc/cron.daily/mongo-back backups?
+# backups are stored in /tmp/mongobd-backups for 21 days.
+mongodb_backups: no

@@ -36,6 +36,7 @@ echo "# Sign CSR"
 
 cd $file_root/CA
 
+# finally create the cert from the self signed csr.
 openssl ca -config $ca_cfg -batch -keyfile $ca_key -cert $ca_crt -notext -md sha256 -in $csr -out $crt
 
 #echo "———————————————————————————————————————————————"

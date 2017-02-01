@@ -10,11 +10,19 @@
   copy:
     src: ~/ansible-secrets/files/{{ vpc_name }}.local/CA/certs/{{ vpc_name }}.local.crt
     dest: /etc/pki/tls/certs/
+  register: internal_vpc_crt
 
 - name: manage internal VPC private key (key) in /etc/pki/tls/private
   copy:
     src: ~/ansible-secrets/files/{{ vpc_name }}.local/CA/private/{{ vpc_name }}.local.key
     dest: /etc/pki/tls/private/
+  register: internal_vpc_key
+
+- name: manage internal mongodb VPC private key and crt combo in /etc/pki/tls/private
+  shell: cat private/{{ vpc_name }}.local.key certs/{{ vpc_name }}.local.crt > private/mongodb.{{ vpc_name }}.local.pem
+  args:
+    chdir: /etc/pki/tls
+  when: internal_vpc_crt.changed or internal_vpc_key.changed
 
 - name: copy ~/ansible-secrets/files/tls/ to /etc/pki/tls/
   copy:
