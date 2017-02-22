@@ -1,0 +1,11 @@
+---
+
+- name: execute sethostname.sh
+  script: sethostname.sh "{{ name }}.{{ vpc_name }}.local"
+
+# AWS clobbers hostname on reboots, this prevents it.
+- name: preserve_hostname in /etc/cloud/cloud.cfg
+  lineinfile:
+    dest: /etc/cloud/cloud.cfg
+    regexp: '^preserve_hostname:'
+    line: 'preserve_hostname: true'

@@ -1,0 +1,2 @@
+{% set comma = joiner(",") %}
+export mongodb_host="rs0/{% for key in groups['mongodb'] %}{{ comma() }}{{ hostvars[key]['name'] }}.{{ vpc_name }}.local:27017{% endfor %}"

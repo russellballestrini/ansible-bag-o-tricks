@@ -9,15 +9,9 @@
 - name: configure UTC time
   shell: ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 
-- name: execute sethostname.sh
-  script: sethostname.sh "{{ name }}.{{ vpc_name }}.local"
-
-# AWS clobbers hostname on reboots, this prevents it.
-- name: preserve_hostname in /etc/cloud/cloud.cfg
-  lineinfile:
-    dest: /etc/cloud/cloud.cfg
-    regexp: '^preserve_hostname:'
-    line: 'preserve_hostname: true'
+- name: include hostname
+  include: hostname.yml
+  when: not packer
 
 - name: install epel-release repo.
   yum:

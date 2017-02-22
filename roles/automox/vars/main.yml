@@ -1,0 +1,8 @@
+---
+automox_url: https://console.automox.com/downloadInstaller?accesskey=
+automox_temp_dir: /tmp/automox_install
+automox_temp_dir_mode: 0700
+automox_temp_install_file: install.sh
+automox_install_script_owner: root
+automox_install_script_group: root
+automox_install_script_mode: 0700

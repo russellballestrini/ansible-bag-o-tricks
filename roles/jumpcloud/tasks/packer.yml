@@ -1,0 +1,7 @@
+- name: ensure jcagent service is stopped
+  service:
+    name: jcagent
+    state: stopped
+
+- name: clean up for packer
+  shell: rm -f /opt/jc/ca.crt /opt/jc/client.crt /opt/jc/client.key /opt/jc/jcagent.conf

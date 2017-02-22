@@ -1,0 +1,29 @@
+---
+- name: Ensure temp directory exists
+  file:
+    path:  "{{ automox_temp_dir }}"
+    state:  directory
+    owner:  "{{ automox_install_script_owner }}"
+    group:  "{{ automox_install_script_group }}"
+    mode:   "{{ automox_temp_dir_mode }}"
+
+- name: Download Automox Agent from automox_url
+  get_url:
+    url: "{{ automox_url }}{{ org_key }}"
+    dest: "{{ automox_temp_dir }}/{{ automox_temp_install_file }}"
+    owner:  "{{ automox_install_script_owner }}"
+    group:  "{{ automox_install_script_group }}"
+    mode: "{{ automox_install_script_mode }}"
+
+- name: Execute Automox install script
+  command: "./{{ automox_temp_install_file }}"
+  args:
+    chdir: "{{ automox_temp_dir }}"
+  notify:
+    - restart Automox
+
+- name: Ensure amagent is enabled and started
+  service:
+    name: amagent
+    state: running
+    enabled: yes

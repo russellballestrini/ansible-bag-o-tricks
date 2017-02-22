@@ -1,0 +1,10 @@
+/var/log/maillog
+/var/log/messages
+/var/log/secure
+/var/log/spooler
+{
+    sharedscripts
+    postrotate
+        killall -HUP rsyslogd 2> /dev/null || true
+    endscript
+}

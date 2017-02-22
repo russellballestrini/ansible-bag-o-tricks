@@ -1,47 +1,10 @@
 ---
 
-# Create a CA for this VPC, skip if ca.key already exists.
-
-- name: stat vpc_name.local.ca.key
-  stat:
-    path: ~/ansible-secrets/files/{{ vpc_name }}.local/CA/private/{{ vpc_name}}.local.ca.key
-  register: vpc_local_ca_key
-  become: false
-  run_once: true
-  delegate_to: 127.0.0.1
-
-- name: create vpc ca key and crt
-  when: vpc_local_ca_key.stat.exists == False
-  script: make_ca.sh {{ vpc_name }} ~/ansible-secrets/files/{{ vpc_name }}.local
-  become: false
-  run_once: true
-  delegate_to: 127.0.0.1
-
-- name: manage openssl.cfg
-  copy: 
-    src: openssl.cfg
-    dest: ~/ansible-secrets/files/{{ vpc_name }}.local/CA/openssl.cfg
-  become: false
-  run_once: true
-  delegate_to: 127.0.0.1
-
-# Create a private key and crt for this VPC, skip if key already exists.
-
-- name: stat vpc_name.local.ca.key
-  stat:
-    path: ~/ansible-secrets/files/{{ vpc_name }}.local/CA/private/{{ vpc_name}}.local.key
-  register: vpc_local_key
-  become: false
-  run_once: true
-  delegate_to: 127.0.0.1
-
-- name: create vpc ca key and crt
-  when: vpc_local_key.stat.exists == False
-  script: generate_cert.sh {{ vpc_name }} ~/ansible-secrets/files/{{ vpc_name }}.local
-  become: false
-  run_once: true
-  delegate_to: 127.0.0.1
+- name: include create_certificates.yml
+  include: create_certificates.yml
+  when: not packer
 
 - name: include install_certificates.yml
   include: install_certificates.yml
+  when: not packer
 

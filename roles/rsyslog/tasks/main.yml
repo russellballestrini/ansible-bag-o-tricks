@@ -1,0 +1,23 @@
+---
+
+- name: manage /etc/yum.repos.d/rsyslog.repo
+  copy:
+    src: rsyslog.repo
+    dest: /etc/yum.repos.d/rsyslog.repo
+
+- name: manage rsyslog package.
+  package:
+    name: rsyslog
+    state: latest
+
+- name: manage /etc/logrotate.d/syslog
+  copy:
+    src: logrotate-syslog
+    dest: /etc/logrotate.d/syslog
+
+- name: manage rsyslog send-to-remote.conf
+  template:
+    src: send-to-remote.conf.j2
+    dest: /etc/rsyslog.d/send-to-remote.conf
+  notify: restart rsyslog
+  when: not packer

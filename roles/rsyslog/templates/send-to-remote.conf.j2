@@ -1,0 +1,22 @@
+# Preserve FQDN when sending logs.
+$PreserveFQDN on
+
+{% set bastion_private_ip = groups['bastion'][0] -%}
+
+{% if bastion_private_ip in ansible_all_ipv4_addresses %}
+# This server is the central log server so we:
+
+# load input module for TCP.
+module(load="imtcp")
+
+# listen on port 514.
+input(type="imtcp" port="514")
+
+{% else %}
+# This server is not the central log server,
+# so we, send all logs to central log server over TCP port 514.
+*.* @@{{ bastion_private_ip }}:514
+
+# hint: *.* is all logs, @@ means TCP, @ means UDP, 514 is the port
+
+{% endif %}

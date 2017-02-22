@@ -53,7 +53,9 @@
 - name: check if replset exists
   shell: echo 'JSON.stringify(rs.status())' | mongo --quiet
   run_once: true
-  ignore_errors: true
+  delay: 15
+  retries: 6
+  until: rs_status_raw.rc == 0
   register: rs_status_raw
 
 - name: parse rs_status_raw json and set python dictionary fact
@@ -73,6 +75,15 @@
   shell: echo "rs.add(\"{{ hostvars[item]['name'] }}.{{ vpc_name }}.local\")" | mongo --quiet
   # this loops over all the ip addresses in the inventory and 
   with_items: "{{ groups.mongodb }}"
+
+# configure a file with some env vars.
+- name: manage /etc/default/mongo-back
+  template:
+    src: mongo-back.conf.j2
+    dest: /etc/default/mongo-back
+    owner: root
+    group: root
+    mode: 0444
 
 # if mongodb_backups: yes then we make local backups on all mongodb instances
 # in the replicaSet.  This means we have 3 backups each day, for 21 days.

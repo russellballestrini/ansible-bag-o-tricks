@@ -18,13 +18,10 @@
   wait_for: 
     path: /opt/jc/jcagent.conf
 
-- name: Get and register the jumpcloud system key from config. 
-  shell: "cat /opt/jc/jcagent.conf | python -c 'import sys, json; print json.load(sys.stdin)[sys.argv[1]]' systemKey"
-  register: system_key
-  delay: 15
-  retries: 6
-  until: system_key.rc == 0
+- name: include packer
+  include: packer.yml
+  when: packer
 
-- name: Use jumpcloud api and curl to tag this system.
-  shell: >
-    curl -iq -d '{ "tags" : {{ jumpcloud_system_tags | to_json }} }' -X "PUT" -H "Content-Type: application/json" -H "Accept: application/json" -H "x-api-key: {{ jumpcloud_api_key }}" --url https://console.jumpcloud.com/api/systems/{{ system_key.stdout }}
+- name: register and tag
+  include: register-and-tag.yml
+  when: not packer

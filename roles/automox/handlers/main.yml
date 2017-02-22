@@ -1,0 +1,5 @@
+---
+- name: restart Automox
+  service:
+    name:  amagent
+    state: restarted

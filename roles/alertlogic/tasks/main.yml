@@ -1,0 +1,34 @@
+---
+
+- name: download alertlogic agent rpm
+  get_url:
+    url: https://scc.alertlogic.net/software/al-agent-LATEST-1.x86_64.rpm
+    dest: /tmp/al-agent-LATEST-1.x86_64.rpm
+    mode: 0444
+  register: al_agent_rpm
+
+- name: install alertlogic agent rpm
+  yum:
+    name: /tmp/al-agent-LATEST-1.x86_64.rpm
+    state: present
+  when: al_agent_rpm.changed
+
+- name: configure agent to talk to virtual appliance
+  shell: /etc/init.d/al-agent configure --host {{ groups['alertlogic'][0] }}
+  args:
+    creates: /var/alertlogic/lib/agent/etc/controller_host
+
+- name: configure agent to talk to virtual appliance
+  shell: /etc/init.d/al-agent provision --key {{ alertlogic_secret_key }} --inst-type host
+  args:
+    creates: /var/alertlogic/lib/agent/etc/reg_id_hash
+
+- name: restart alertlogic agent
+  shell: /etc/init.d/al-agent restart
+
+- name: manage /etc/rsyslog.d/send-to-alertlogic.conf
+  copy:
+    src: send-to-alertlogic.conf
+    dest: /etc/rsyslog.d/send-to-alertlogic.conf
+    mode: 0644
+  notify: restart rsyslog
