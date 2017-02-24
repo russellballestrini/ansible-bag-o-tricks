@@ -1,7 +1,7 @@
 ---
 
 - name: Check if JumpCloud is already installed
-  shell: "[ -f /opt/jc/jcagent.conf ] && echo 'found' || echo 'not-found'"
+  shell: "[ -f /opt/jc/version.txt ] && echo 'found' || echo 'not-found'"
   register: jc_installed
 
 - name: Install JumpCloud

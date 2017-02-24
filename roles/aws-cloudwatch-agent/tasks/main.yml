@@ -1,0 +1,46 @@
+---
+- name: get the EC2 instance region
+  shell: curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | awk -F'"' '/\"region\"/ { print $4 }'
+  register: ec2_region
+
+- name: "Download Install Script"
+  get_url:
+    url: https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py
+    dest: /tmp/awslogs-agent-setup.py
+    mode: 550
+
+- name: "Create /var/awslogs/state/ directory"
+  file:
+    path: /var/awslogs/state/
+    state: directory
+    mode: 755
+
+- name: "Create /etc/awslogs"
+  file:
+    path: /etc/awslogs
+    state: directory
+    mode: 755
+
+
+- name: "Configure AWS CloudWatch Logs Agent"
+  template:
+    src: templates/awslogs.conf.j2
+    dest: /etc/awslogs/awslogs.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: "Update Package Lists (Debian)"
+  apt:
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: "Update Package Lists (RedHat)"
+  yum:
+    name: '*'
+    update_cache: yes
+  when: ansible_os_family == "RedHat"
+
+
+- name: "Install AWS CloudWatch Logs Agent"
+  shell: python /tmp/awslogs-agent-setup.py -n -r {{ ec2_region.stdout }} -c /etc/awslogs/awslogs.conf
