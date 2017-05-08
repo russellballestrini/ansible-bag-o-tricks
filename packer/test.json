@@ -1,0 +1,30 @@
+test.json
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": "",
+    "vpc_name": ""
+  },
+
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "us-east-1",
+      "source_ami": "ami-2a2ab13d",
+      "instance_type": "t2.micro",
+      "ssh_username": "centos",
+      "ami_name": "my-centos7-{{timestamp}}"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "ansible",
+      "command": "ansible-playbook",
+      "playbook_file": "/Users/rballestrini/git/ansible-bag-o-tricks/base.yml",
+      "extra_arguments": [ "--extra-vars", "vpc_name=default packer=true" ]
+    }
+  ]
+}
