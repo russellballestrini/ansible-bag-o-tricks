@@ -1,5 +1,6 @@
 ---
 - name: restart Automox
+  when: not packer
   service:
     name:  amagent
     state: restarted

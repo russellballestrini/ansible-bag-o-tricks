@@ -6,3 +6,4 @@ automox_temp_install_file: install.sh
 automox_install_script_owner: root
 automox_install_script_group: root
 automox_install_script_mode: 0700
+packer: false

@@ -9,21 +9,38 @@
 
 - name: Download Automox Agent from automox_url
   get_url:
-    url: "{{ automox_url }}{{ org_key }}"
+    url: "{{ automox_url }}{{ automox_api_key }}"
     dest: "{{ automox_temp_dir }}/{{ automox_temp_install_file }}"
     owner:  "{{ automox_install_script_owner }}"
     group:  "{{ automox_install_script_group }}"
     mode: "{{ automox_install_script_mode }}"
 
+- name: Check if Automox is already installed
+  shell: "[ -f /opt/amagent/amagent ] && echo 'found' || echo 'not-found'"
+  register: automox_binary
+  changed_when: automox_binary.rc == 1
+
 - name: Execute Automox install script
+  when: automox_binary.stdout == 'not-found'
   command: "./{{ automox_temp_install_file }}"
   args:
     chdir: "{{ automox_temp_dir }}"
   notify:
     - restart Automox
 
+- name: Set Automox Group Name
+  when: automox_binary.stdout == 'not-found' and not packer
+  command: /opt/amagent/amagent --setgrp "Default Group/{{ automox_endpoint_group_name | default('') }}"
+  notify:
+    - restart Automox
+
 - name: Ensure amagent is enabled and started
+  when: not packer
   service:
     name: amagent
     state: running
     enabled: yes
+
+- name: pause for 10 seconds to allow endpoint to register.
+  pause:
+    seconds: 10
