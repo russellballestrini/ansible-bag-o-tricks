@@ -8,11 +8,4 @@
     - ~/ansible-secrets/vars/{{ vpc_name }}.yml
     - ~/ansible-secrets/vars/common.yml
   roles:
-    - base
-    - ntp
-    - jumpcloud
-    - automox
-    - sshd
     - certificates
-    - rsyslog
-    - aws-inspector-agent

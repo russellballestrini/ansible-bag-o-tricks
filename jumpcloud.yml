@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: all:!alertlogic
   become: yes
   become_user: root
   vars_prompt:
@@ -6,6 +6,7 @@
       private: no
   vars_files:
     - ~/ansible-secrets/vars/{{ vpc_name }}.yml
+    - ~/ansible-secrets/vars/common.yml
   roles:
     - curl
     - jumpcloud

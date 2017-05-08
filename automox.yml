@@ -1,18 +1,11 @@
+---
 - hosts: all:!alertlogic
-  become: yes
+  become: true
   become_user: root
   vars_prompt:
     - name: vpc_name
       private: no
   vars_files:
-    - ~/ansible-secrets/vars/{{ vpc_name }}.yml
     - ~/ansible-secrets/vars/common.yml
   roles:
-    - base
-    - ntp
-    - jumpcloud
     - automox
-    - sshd
-    - certificates
-    - rsyslog
-    - aws-inspector-agent

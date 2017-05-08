@@ -1,0 +1,17 @@
+- hosts: all:!alertlogic
+  become: yes
+  become_user: root
+  vars_prompt:
+    - name: vpc_name
+      private: no
+  vars_files:
+    - ~/ansible-secrets/vars/{{ vpc_name }}.yml
+  roles:
+    - rsyslog
+    - alertlogic
+
+# reference - how to install the alertlogic agent:
+# https://docs.alertlogic.com/install/alert-logic-agent-linux.htm
+
+# firewall rules for appliance:
+# https://docs.alertlogic.com/requirements/firewall-rules.htm#tmVirtualApp
