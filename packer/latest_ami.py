@@ -3,22 +3,8 @@ from datetime import datetime
 from argparse import ArgumentParser
 import boto3
 
-def get_timestamp_from_name(ami_name):
-    return int(ami_name.split('-')[-1])
-
-def get_datetime_from_name(ami_name):
-    timestamp = get_timestamp_from_name(ami_name)
-    return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%dT%H:%M:%S')
-
 def latest_ami(amis):
-    timestamp  = 0
-    latest_ami = None
-    for ami in amis:
-        ami_timestamp = get_timestamp_from_name(ami.name)
-        if ami_timestamp > timestamp:
-            latest_ami = ami
-            timestamp = ami_timestamp
-    return latest_ami
+    return sorted(amis, key=lambda ami: ami.creation_date)[-1]
 
 def get_amis_by_name(resource_ec2, name):
     return list(resource_ec2.images.filter(Filters=[{'Name':'name', 'Values':[name]}]))
@@ -44,6 +30,6 @@ if __name__ == '__main__':
 
     if args.list_all:
         for ami in amis:
-            print('{}, {}, {}'.format(ami.name, get_datetime_from_name(ami.name), ami.id))
+            print('{}, {}, {}'.format(ami.name, ami.creation_date, ami.id))
     else:
         print(latest_ami(amis).id)
