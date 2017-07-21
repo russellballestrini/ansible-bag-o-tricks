@@ -1,13 +1,18 @@
+#!/usr/bin/env python
 from os import environ
 from datetime import datetime
 from argparse import ArgumentParser
 import boto3
 
-def latest_ami(amis):
-    return sorted(amis, key=lambda ami: ami.creation_date)[-1]
+def sort_amis_by_creation_date(amis):
+    return sorted(amis, key=lambda ami: ami.creation_date)
 
 def get_amis_by_name(resource_ec2, name):
-    return list(resource_ec2.images.filter(Filters=[{'Name':'name', 'Values':[name]}]))
+    filters = [{'Name':'name', 'Values':[name]}]
+    return list(resource_ec2.images.filter(Filters=filters))
+
+def ami_string(ami):
+    return '{}, {}, {}'.format(ami.name, ami.creation_date, ami.id)
 
 if __name__ == '__main__':
     parser = ArgumentParser(description="get the latest AMI id")
@@ -26,10 +31,14 @@ if __name__ == '__main__':
             )
 
     resource_ec2 = boto3.resource('ec2')
+
     amis = get_amis_by_name(resource_ec2, args.name_filter)
 
+    sorted_amis = sort_amis_by_creation_date(amis)
+
     if args.list_all:
-        for ami in amis:
-            print('{}, {}, {}'.format(ami.name, ami.creation_date, ami.id))
+        for ami in sorted_amis:
+            print(ami_string(ami))
     else:
-        print(latest_ami(amis).id)
+        ami = sorted_amis[-1]
+        print(ami_string(ami))
